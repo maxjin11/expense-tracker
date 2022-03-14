@@ -155,21 +155,6 @@ lightred = "#F02D3A"
 cream = "#EFF6EE"
 now = datetime.now()
 
-# checks if the correct background image exists, and if not, it converts the jpg version of that file.
-"""
-if path.exists("bglandscape.png") == False:
-    img0 = Image.open("background/bglandscape.jpg")
-    img1 = img0.resize((960, 540))
-    img1.save("background/bglandscape.png")
-
-
-def background():
-    bg_image = PhotoImage(file="background/bglandscape.png")
-    bg_label = Label(window, image=bg_image)
-    bg_label.image = bg_image
-    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-"""
-
 # displays the widgets which make up the GUI, what it displays changes depending on the value of the scene variable
 # since it changes depending on the variable, this function can be used to refresh the GUI.
 # this is important since the refresh can be used to update the database information displayed.
@@ -187,28 +172,6 @@ def menu():
         # add_image = PhotoImage(file="buttons/add_btn.png")
 
         # various buttons for different purposes
-        """
-        addButton = Button(window, text="Add Expense", height=2, width=15, font="bold_font", command=lambda: addExpense())    
-        addButton.config(borderwidth=0, fg=charcoal, relief=RAISED)
-        addButton.configure(highlightbackground=charcoal)
-        addButton.place(x = 54, y = 50) # width is 122? height is 73?
-        
-        delButton = Button(window, text="Delete Expense", height=2, width=15,  font="bold_font", command=lambda: deleteExpense())
-        delButton.config(borderwidth=0, fg=charcoal, relief=RAISED)
-        delButton.configure(highlightbackground=charcoal)
-        delButton.place(x = 54, y = 130)
-
-        viewButton = Button(window, text="View Expenses", height=4, width=20, command=lambda: viewExpenses())
-        viewButton.place(x = 54, y = 210)
-
-        analyzeButton = Button(window, text="Analyze Expenses", height=4, width=20, command=lambda: analyzeExpenses())
-        analyzeButton.place(x = 54, y = 290)
-
-        exitButton = Button(window, text="Exit Program", height=4, width=20, command=lambda: exitProgram())
-        exitButton.place(x = 54, y = 370)
-
-        """
-
         button_temp("Add Expense", lambda: addExpense(), 14, charcoal, 2, 15, 54, 50)
         button_temp("Delete Expense", lambda: deleteExpense(), 14, charcoal, 2, 15, 54, 130)
         button_temp("View Expenses", lambda: viewExpenses(), 14, charcoal, 2, 15, 54, 210)
@@ -388,15 +351,6 @@ def menu():
             menu()
             popup()
 
-        """
-        old button code:
-
-        delete_selected = Button(window, text="Delete Selected Expenses", padx=2, pady=5, command=lambda: deleteSelected())
-        delete_all = Button(window, text="Delete All Expenses", padx=2, pady=5, command=lambda: clearTable())
-        
-        delete_selected.place(x=400, y=350)
-        delete_all.place(x=414, y=390)
-        """
 
         button_temp("Delete Selected\nExpenses", lambda: deleteSelected(), 10, charcoal, 3, 17, 400, 350)
         button_temp("Delete All Expenses", lambda: clearTable(), 10, charcoal, 2, 17, 400, 410)
@@ -561,28 +515,6 @@ def menu():
             button_temp("Sort by\nID - Lowest", lambda: id_asc(), 10, charcoal, 3, 15, initside + 435, 350)
             button_temp("Sort by\nValue - Lowest", lambda: value_lowest(), 10, charcoal, 3, 15, initside + 580, 350)
             button_temp("Sort by\nValue- Highest", lambda: value_highest(), 10, charcoal, 3, 15, initside + 725, 350)
-
-            """
-            old button filter code:
-
-            newButton = Button(window, text="Sort by Date - Newest", padx=2, pady=5, command=lambda: newest())
-            newButton.place(x=initside, y=350)
- 
-            oldButton = Button(window, text="Sort by Date - Oldest", padx=2, pady=5, command=lambda: oldest())
-            oldButton.place(x=initside + 145, y=350)
-            
-            idHighButton = Button(window, text="Sort by ID - Highest", padx=2, pady=5, command=lambda: id_desc())
-            idHighButton.place(x=initside + 290, y=350)
-
-            idLowButton = Button(window, text="Sort by ID - Lowest", padx=2, pady=5, command=lambda: id_asc())
-            idLowButton.place(x=initside + 430, y=350)
-
-            valueLowButton = Button(window, text="Sort by Value - Lowest", padx=2, pady=5, command=lambda: value_lowest())
-            valueLowButton.place(x=initside + 567, y=350)
-
-            valueHighButton = Button(window, text="Sort by Value - Highest", padx=2, pady=5, command=lambda: value_highest())
-            valueHighButton.place(x=initside + 722, y=350)
-            """
 
             menuButton()
 
@@ -913,19 +845,6 @@ def menu():
                 monthly_dropdown()
                 menuButton()
 
-                """
-                cur.execute("SELECT * FROM IDExpenses WHERE Date >= (?) and Date <= (?) LIMIT 0, 15", (month_start, month_end))
-                expenses = cur.fetchall()
-
-                for row in expenses:
-                    treetable.insert("", END, values=row)
-
-                treetable.pack()
-
-                average_value(expenses)
-                total_value(expenses)
-                """
-
             button_temp("Select Month\nTo Analyze", lambda: get_monthly(), 10, charcoal, 2, 10, 80, 378)
 
 
@@ -956,19 +875,6 @@ def menu():
 
             # default menu
             if analyze == 0:
-                """
-                weekButton = Button(window, text="Analyze From 1 Week Ago", padx=2, pady=5, command=lambda: last_week()) 
-                monthButton = Button(window, text="Analyze From 1 Month (30 Days) Ago", padx=2, pady=5, command=lambda: last_month())
-                quarterButton = Button(window, text="Analyze From 3 Months Ago", padx=2, pady=5, command=lambda: last_quarter())
-                yearButton = Button(window, text="Analyze From 1 Year Ago", padx=2, pady=5, command=lambda: last_year())
-                allTimeButton = Button(window, text="Analyze All-Time Results", padx = 2, pady=5, command=lambda: all_time())
-
-                weekButton.pack()
-                monthButton.pack()
-                quarterButton.pack()
-                yearButton.pack()
-                allTimeButton.pack()
-                """
                 cur.execute("SELECT * FROM IDExpenses LIMIT 0, 0")
                 expenses = cur.fetchall()
 
